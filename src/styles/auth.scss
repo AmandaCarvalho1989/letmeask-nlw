@@ -3,6 +3,23 @@
   align-items: stretch;
   height: 100vh;
 
+  @media (max-width: 900px) {
+    flex-direction: column;
+    height: 100%;
+    aside {
+      max-height: 400px;
+      padding: 0px;
+
+      img {
+        display: none;
+      }
+    }
+
+    main {
+      flex: 1;
+    }
+  }
+
   aside {
     flex: 7;
     background: #835afc;
@@ -37,6 +54,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
+    @media (max-width: 900px) {
+      margin: 32px 0;
+    }
   }
 
   .main-content {
@@ -50,10 +71,10 @@
     > img {
       align-self: center;
     }
-    h2{
+    h2 {
       font-size: 24px;
       margin: 64px 0 24px;
-      font-family: 'Poppins', sans-serif;
+      font-family: "Poppins", sans-serif;
     }
     form {
       input {
@@ -71,13 +92,13 @@
         width: 100%;
       }
     }
-    p{
+    p {
       font-weight: 14px;
       color: #737380;
       margin-top: 16px;
 
-      a{
-        color: #e559f9
+      a {
+        color: #e559f9;
       }
     }
   }

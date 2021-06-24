@@ -17,6 +17,9 @@
       > div {
         display: flex;
         gap: 16px;
+        @media (max-width: 900px) {
+          flex-direction: column;
+        }
 
         button {
           height: 40px;
@@ -28,6 +31,9 @@
   main {
     max-width: 800px;
     margin: 0 auto;
+    @media (max-width: 900px) {
+      padding: 0 32px;
+    }
 
     .room-title {
       margin: 32px 0 24px;
