@@ -52,7 +52,20 @@ const Room: React.FC = () => {
     setNewQuestion("");
   }
 
-  function handleLikeQuestion(questionId: any, as: any) {}
+  async function handleLikeQuestion(
+    questionId: string,
+    likeId: string | undefined
+  ) {
+    if (likeId) {
+      await database
+        .ref(`rooms/${roomId}/questions/${questionId}/likes/${likeId}`)
+        .remove();
+    } else {
+      await database.ref(`rooms/${roomId}/questions/${questionId}/likes`).push({
+        authorId: user?.id,
+      });
+    }
+  }
 
   return (
     <div id="page-room">
@@ -105,7 +118,7 @@ const Room: React.FC = () => {
                     handleLikeQuestion(question.id, question.likeId)
                   }
                 >
-                  {question.likeCount > 0 && <span> 10{question.likeCount}</span>}
+                  {question.likeCount > 0 && <span> {question.likeCount}</span>}
                   <svg
                     width="24"
                     height="24"
