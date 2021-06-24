@@ -1,12 +1,15 @@
-import React, {ButtonHTMLAttributes} from 'react';
-import '../styles/button.scss'
+import { ButtonHTMLAttributes } from "react";
 
-type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement>
+import "../styles/button.scss";
 
-const Button: React.FC = (props: ButtonProps) => {
+type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
+  isOutlined?: boolean;
+};
+
+const Button = ({ isOutlined = false, ...props }: ButtonProps) => {
   return (
-    <button className="button" {...props}/>
-  )
-}
+    <button className={`button ${isOutlined ? "outlined" : ""}`} {...props} />
+  );
+};
 
 export default Button;
