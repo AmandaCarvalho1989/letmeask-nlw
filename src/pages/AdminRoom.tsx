@@ -9,6 +9,8 @@ import { useRoom } from "../hooks/useRoom";
 
 import logo from "../assets/images/logo.svg";
 import deleteImg from "../assets/images/delete.svg";
+import checkImg from "../assets/images/check.svg";
+import answerImg from "../assets/images/answer.svg";
 
 import "../styles/room.scss";
 
@@ -20,7 +22,7 @@ const AdminRoom: React.FC = () => {
   const params = useParams<RoomParams>();
   const roomId = params.id;
 
-  const history = useHistory()
+  const history = useHistory();
 
   const { questions, title } = useRoom(roomId);
 
@@ -29,13 +31,25 @@ const AdminRoom: React.FC = () => {
       endedAt: new Date(),
     });
 
-    history.push('/')
+    history.push("/");
   };
 
   const handleDeleteQuestion = async (questionId: string) => {
     if (window.confirm("Tem certeza que você deseja excluir esta pergunta?")) {
       await database.ref(`rooms/${roomId}/questions/${questionId}`).remove();
     }
+  };
+
+  const handleCheckQuestionAsAnswered = async (questionId: string) => {
+    await database.ref(`rooms/${roomId}/questions/${questionId}`).update({
+      isAnswered: true,
+    });
+  };
+
+  const handleHighlightQuestion = async (questionId: string) => {
+    await database.ref(`rooms/${roomId}/questions/${questionId}`).update({
+      isHighlighted: true,
+    });
   };
 
   return (
@@ -45,7 +59,9 @@ const AdminRoom: React.FC = () => {
           <img src={logo} alt="Letmeask" />
           <div>
             <RoomCode code={roomId} />
-            <Button isOutlined onClick={handleEndRoom}>Encerrar sala</Button>
+            <Button isOutlined onClick={handleEndRoom}>
+              Encerrar sala
+            </Button>
           </div>
         </div>
       </header>
@@ -61,6 +77,22 @@ const AdminRoom: React.FC = () => {
           {questions.map((question) => {
             return (
               <Question key={question.id} {...question}>
+                {!question.isAnswered && (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => handleCheckQuestionAsAnswered(question.id)}
+                    >
+                      <img src={checkImg} alt="Resolve question" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleHighlightQuestion(question.id)}
+                    >
+                      <img src={answerImg} alt="Answer question" />
+                    </button>
+                  </>
+                )}
                 <button
                   type="button"
                   onClick={() => handleDeleteQuestion(question.id)}
